@@ -20,6 +20,9 @@ abstract class CommentsDao {
     abstract fun clear()
 
     @Query("SELECT * FROM comments WHERE postId = :postId")
+    abstract fun commentsSync(postId:Int): List<CommentsEntity>
+
+    @Query("SELECT * FROM comments WHERE postId = :postId")
     abstract fun comments(postId:Int): LiveData<List<CommentsEntity>>
 
     @Query("SELECT EXISTS (SELECT 1 FROM comments WHERE postId = :postId)")

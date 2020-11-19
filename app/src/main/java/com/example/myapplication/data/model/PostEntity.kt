@@ -6,5 +6,5 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "posts")
 data class PostEntity(@PrimaryKey(autoGenerate = true) val id: Int = 0,
-                      @Embedded(prefix = "post") val post: Post
+                      @Embedded(prefix = "post_") val post: Post
 )

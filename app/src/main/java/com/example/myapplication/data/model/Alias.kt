@@ -8,6 +8,10 @@ fun Comments.toEntities(post: Post):List<CommentsEntity>{
     return this.map { CommentsEntity(postId = post.id, comment = it) }
 }
 
+fun Comments.toEntities(postId: Int):List<CommentsEntity>{
+    return this.map { CommentsEntity(postId = postId, comment = it) }
+}
+
 fun Posts.toEntities():List<PostEntity>{
     return this.map { it.toEntity() }
 }

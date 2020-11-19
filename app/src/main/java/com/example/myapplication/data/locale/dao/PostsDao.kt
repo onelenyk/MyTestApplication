@@ -22,6 +22,15 @@ abstract class PostsDao {
     @Query("SELECT * FROM posts")
     abstract fun all(): LiveData<List<PostEntity>>
 
-    @Query("SELECT * FROM posts WHERE postid = :id")
+    @Query("SELECT * FROM posts")
+    abstract fun allSync(): List<PostEntity>
+
+    @Query("SELECT EXISTS(SELECT * FROM posts WHERE post_id = :postId)")
+    abstract fun isExist(postId:Int): Boolean
+
+    @Query("SELECT EXISTS(SELECT * FROM posts)")
+    abstract fun isExists(): Boolean
+
+    @Query("SELECT * FROM posts WHERE post_id = :id")
     abstract fun postSync(id:Int): PostEntity
 }

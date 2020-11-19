@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.example.myapplication.data.locale.provider.DBProvider
 import com.example.myapplication.data.model.*
 import com.example.myapplication.data.network.provider.RepositoryProvider
+import com.example.myapplication.data.network.repository.FeedCacheRepository
 import com.example.myapplication.data.network.utils.ResponseData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -12,32 +13,17 @@ import kotlinx.coroutines.launch
 
 class FeedViewModel : ViewModel() {
 
-
-    private val postsDao by lazy {
-        DBProvider.getPostsDao()
-    }
-
     private val feedRepository by lazy {
         RepositoryProvider.feedRepository
     }
 
-    init {
-        loadPosts()
-
-        postsDao.all().observeForever{
-            feedList.value = it.map { item -> PostItem(item.post) }
-        }
-    }
-
     val feedList = MutableLiveData<List<PostItem>>()
 
-
-    private fun loadPosts(){
-        collectData()
+    init {
+        loadPosts()
     }
 
-
-    private fun collectData(){
+    private fun loadPosts(){
         feedRepository.posts().observeForever {
             when(it){
                 is ResponseData.Success -> successPostsLoad(it.requireData())
@@ -48,12 +34,8 @@ class FeedViewModel : ViewModel() {
     }
 
     private fun successPostsLoad(posts: Posts){
-        savePosts(posts)
-    }
-
-
-    private fun savePosts(posts: Posts){
-        postsDao.insert(posts.toEntities())
+        val items = posts.map { item -> PostItem(item) }
+        feedList.value = items
     }
 
 }

@@ -21,6 +21,9 @@ abstract class UserDao {
     @Query("SELECT * FROM users WHERE user_id = :id")
     abstract fun user(id:Int): LiveData<UserEntity>
 
+    @Query("SELECT * FROM users WHERE user_id = :id")
+    abstract fun userSync(id:Int): UserEntity
+
     @Query("SELECT EXISTS (SELECT 1 FROM users WHERE user_id = :userId)")
     abstract fun exists(userId: Int): Boolean
 }
