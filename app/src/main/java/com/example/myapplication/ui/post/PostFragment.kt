@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.myapplication.R
+import com.example.myapplication.databinding.FeedFragmentBinding
+import com.example.myapplication.databinding.PostFragmentBinding
 import com.example.myapplication.ui.feed.FeedAdapter
 import com.example.myapplication.ui.feed.FeedViewModel
 import kotlinx.android.synthetic.main.feed_fragment.*
@@ -25,11 +27,32 @@ class PostFragment : Fragment(R.layout.post_fragment) {
         PostViewModel::class.java) }
 
 
+    private var binding: PostFragmentBinding? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val binding = PostFragmentBinding.inflate(inflater,container,false)
+        val view = binding.root
+
+        this.binding = binding
+
+        return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupComment()
-        setupPost()
+        setupView()
         load()
     }
 
@@ -38,19 +61,12 @@ class PostFragment : Fragment(R.layout.post_fragment) {
         viewModel.loadData(postId)
     }
 
-    fun setupPost(){
-        viewModel.user.observe(viewLifecycleOwner, Observer {
-            tv_user.text = it.username
-        })
-
-        viewModel.post.observe(viewLifecycleOwner, Observer {
-            tv_title.text = it.title
-            tv_body.text = it.body
-        })
+    fun setupView(){
+        binding?.viewModel = viewModel
     }
 
     fun setupComment(){
-        rv_comments.adapter = commentAdapter
+        binding?.rvComments?.adapter = commentAdapter
 
         viewModel.comments.observe(viewLifecycleOwner, Observer {
             commentAdapter.start(it)

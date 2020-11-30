@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.data.model.CommentItem
 import com.example.myapplication.data.model.PostItem
+import com.example.myapplication.databinding.CommentRvItemBindingBinding
+import com.example.myapplication.databinding.PostRvItemBindingBinding
+import com.example.myapplication.ui.feed.FeedAdapter
 
 class CommentAdapter() : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>(){
 
@@ -19,23 +22,17 @@ class CommentAdapter() : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>(
         notifyDataSetChanged()
     }
 
-    class CommentViewHolder(view:View) : RecyclerView.ViewHolder(view){
-        private val postTitle = view.findViewById<TextView>(R.id.tv_username)
-        private val postBody = view.findViewById<TextView>(R.id.tv_body)
-
+    class CommentViewHolder(val binding :CommentRvItemBindingBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: CommentItem){
-            with(item){
-                postTitle.text = comment.name
-                postBody.text = comment.body
-            }
-
-
+            binding.item = item
+            binding.executePendingBindings()
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.comment_rv_item, parent, false)
-        return CommentViewHolder(view)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding =  CommentRvItemBindingBinding.inflate(inflater, parent,false)
+        return CommentViewHolder(binding)
     }
 
     override fun getItemCount(): Int  = data.size
