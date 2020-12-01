@@ -21,7 +21,7 @@ class FeedViewModel @ViewModelInject constructor(
         loadPosts()
     }
 
-    private fun loadPosts(){
+    fun loadPosts(){
         feedRepository.posts().observeForever(this, Observer {
             when(it){
                 is ResponseData.Success -> successPostsLoad(it.requireData())
