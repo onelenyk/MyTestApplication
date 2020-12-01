@@ -15,6 +15,10 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/post_rv_item" />
 
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/view_default_loading_bar"/>
     </FrameLayout>
 
 </layout>

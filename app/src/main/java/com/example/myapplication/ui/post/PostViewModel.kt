@@ -1,19 +1,17 @@
 package com.example.myapplication.ui.post
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import com.example.myapplication.data.locale.provider.DBProvider
 import com.example.myapplication.data.model.*
-import com.example.myapplication.data.network.provider.RepositoryProvider
-import com.example.myapplication.data.network.repository.FeedCacheRepository
+import com.example.myapplication.data.network.repository.FeedRepository
 import com.example.myapplication.data.network.utils.ResponseData
+import com.example.myapplication.ui.base.BaseLoadingViewModel
+import com.example.myapplication.data.network.utils.observeForever
 
-class PostViewModel : ViewModel() {
-    private val feedRepository by lazy {
-        RepositoryProvider.feedRepository
-    }
+class PostViewModel @ViewModelInject constructor(
+    private val feedRepository: FeedRepository
+)  : BaseLoadingViewModel() {
 
     val comments = MutableLiveData<List<CommentItem>>()
 
@@ -22,28 +20,28 @@ class PostViewModel : ViewModel() {
     val post = MutableLiveData<Post>()
 
     fun loadData(postId: Int) {
-        feedRepository.comments(postId).observeForever {
+        feedRepository.comments(postId).observeForever(this, Observer {
             when (it) {
                 is ResponseData.Success -> {
                     comments.value = it.requireData().map { CommentItem((it)) }
                 }
             }
-        }
+        })
 
-        feedRepository.user(postId).observeForever {
+        feedRepository.user(postId).observeForever(this, Observer {
             when (it) {
                 is ResponseData.Success -> {
                     user.value = it.requireData()
                 }
             }
-        }
+        })
 
-        feedRepository.post(postId).observeForever {
+        feedRepository.post(postId).observeForever(this, Observer {
             when (it) {
                 is ResponseData.Success -> {
                     post.value = it.requireData()
                 }
             }
-        }
+        })
     }
 }

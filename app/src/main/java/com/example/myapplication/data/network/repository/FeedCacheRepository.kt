@@ -3,28 +3,20 @@ package com.example.myapplication.data.network.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.liveData
-import com.example.myapplication.data.locale.provider.DBProvider
+import com.example.myapplication.data.locale.dao.CommentsDao
+import com.example.myapplication.data.locale.dao.PostsDao
+import com.example.myapplication.data.locale.dao.UserDao
 import com.example.myapplication.data.model.*
-import com.example.myapplication.data.network.provider.ApiProvider
+import com.example.myapplication.data.network.service.FeedService
 import com.example.myapplication.data.network.utils.ResponseData
-import kotlinx.coroutines.Dispatchers
 import java.lang.NullPointerException
 
-class FeedCacheRepository : BaseRepository(),FeedRepository {
-    private val feedApi = ApiProvider.feedApi
-
-    private val postsDao by lazy {
-        DBProvider.getPostsDao()
-    }
-
-    private val userDao by lazy {
-        DBProvider.getUserDao()
-    }
-
-
-    private val commentsDao by lazy {
-        DBProvider.getCommentsDao()
-    }
+class FeedCacheRepository(
+    private val feedApi:FeedService,
+    private val postsDao:PostsDao,
+    private val userDao:UserDao,
+    private val commentsDao:CommentsDao
+) : BaseRepository(),FeedRepository {
 
     override fun post(postId :Int): LiveData<ResponseData<Post>> = liveData {
         if(existPost(postId)){

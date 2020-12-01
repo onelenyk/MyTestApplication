@@ -1,8 +1,6 @@
 package com.example.myapplication.ui.feed
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +11,16 @@ import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.data.model.PostItem
 import com.example.myapplication.databinding.FeedFragmentBinding
-import kotlinx.android.synthetic.main.feed_fragment.*
+import com.example.myapplication.ui.base.BaseLoadingFragment
+import com.example.myapplication.ui.base.BaseLoadingViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
-class FeedFragment : Fragment(), OnFeedListener{
 
-    private val viewModel: FeedViewModel by viewModels<FeedViewModel>()
+@AndroidEntryPoint
+class FeedFragment : BaseLoadingFragment(), OnFeedListener{
+
+    override val viewModel by viewModels<FeedViewModel>()
 
     private val feedAdapter:FeedAdapter by lazy {
         FeedAdapter(this)
@@ -44,6 +46,7 @@ class FeedFragment : Fragment(), OnFeedListener{
 
         setupFeed()
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
