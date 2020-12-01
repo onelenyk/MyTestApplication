@@ -35,7 +35,6 @@ class FeedApiCommentsTest {
 
             val comment = Comment(0,1,"title","email","nobody")
 
-
             testComments = arrayListOf(comment)
 
             val response = Response.success(testComments)

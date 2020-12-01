@@ -42,8 +42,6 @@ class FeedApiUserTest {
         }
     }
 
-
-
     @Test
     fun testUserSuccess() = runBlocking {
         val resultExpect = true
