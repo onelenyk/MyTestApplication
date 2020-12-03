@@ -15,10 +15,12 @@
 
 default_platform(:android)
 
+
 platform :android do
 
   desc "Build release and debug"
   lane :buildAll do
+    gradle(task: "clean")
     buildR
     buildD
   end
