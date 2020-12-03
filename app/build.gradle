@@ -6,6 +6,10 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
+def getDate() {
+    return new Date().format('yyyy:MM:dd')
+}
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -17,16 +21,38 @@ android {
         versionCode 1
         versionName "1.0"
 
+        archivesBaseName = "${rootProject.name}-v$versionCode($versionName)(${getDate()})"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+
+    signingConfigs {
+        release {
+            storeFile file("keys/release_key")
+            storePassword "test12"
+            keyAlias "key0"
+            keyPassword "test12"
+        }
+        /*
+         debug {
+            storeFile file("keys/debug_key")
+            storePassword "-"
+            keyAlias "-"
+            keyPassword "-"
+           }*/
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
         }
     }
-    
+
     flavorDimensions "tier"
 
     productFlavors {

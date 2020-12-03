@@ -1,0 +1,54 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+
+  desc "Build release and debug"
+  lane :buildAll do
+    buildR
+    buildD
+  end
+
+  desc "Build release: flavor - production, built_type - Release"
+  lane :buildR do
+    gradle(
+      task: "assemble",
+      flavor: "production",
+      build_type: "Release")
+    copy
+  end
+
+  desc "Build debug: flavor - development, built_type - Debug"
+  lane :buildD do
+    gradle(
+      task: "assemble",
+      flavor: "development",
+      build_type: "Debug")
+    copy
+  end
+
+  desc "Copy build to"
+  lane :copy do
+    date = Time.new.strftime("%Y:%m:%d")
+    path = 'apk/' + date
+  copy_artifacts(
+    artifacts: [lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]],
+    target_path: path
+  )
+  end
+
+end

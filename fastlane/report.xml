@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000868">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: Switch to android buildR lane" time="0.001132">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: assembleproductionRelease" time="35.867106">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: Switch to android copy lane" time="0.000331">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="4: copy_artifacts" time="0.010613">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="5: Switch to android buildD lane" time="0.00023">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="6: assembledevelopmentDebug" time="24.557816">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="7: Switch to android copy lane" time="0.000498">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="8: copy_artifacts" time="0.012246">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>
